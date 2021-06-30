@@ -11,7 +11,7 @@ import jp.co.jeus.driver.rest.annotation.PropertyAnnotation;
  *
  * @author soyou
  */
-@PropertyAnnotation(bundle = "DriverSettings.properties")
+@PropertyAnnotation(bundle = "DriverSettings")
 public class DriverSettingsProperties extends AbstractProperty {
 
     static {
@@ -19,7 +19,9 @@ public class DriverSettingsProperties extends AbstractProperty {
     }
 
     public enum Keys {
-        URL("url"),;
+        URL("url"),
+        CONNECT_TIMEOUT("connect.timeout"),
+        READ_TIMEOUT("read.timeout"),;
 
         private final String value;
 
@@ -33,6 +35,6 @@ public class DriverSettingsProperties extends AbstractProperty {
     }
 
     public static String get(Keys key) {
-        return get(key.getValue());
+        return get(DriverSettingsProperties.class, key.getValue());
     }
 }

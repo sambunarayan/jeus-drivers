@@ -14,6 +14,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import jp.co.jeus.driver.rest.dto.TestDto;
+import jp.co.jeus.driver.rest.props.DriverSettingsProperties;
 
 /**
  *
@@ -27,10 +28,10 @@ public class DriverClient {
 
     private void initialize() {
         Client client = ClientBuilder.newBuilder()
-                .connectTimeout(1000, TimeUnit.MILLISECONDS)
-                .readTimeout(10000, TimeUnit.MILLISECONDS)
+                .connectTimeout(Long.parseLong(DriverSettingsProperties.get(DriverSettingsProperties.Keys.CONNECT_TIMEOUT)), TimeUnit.MILLISECONDS)
+                .readTimeout(Long.parseLong(DriverSettingsProperties.get(DriverSettingsProperties.Keys.READ_TIMEOUT)), TimeUnit.MILLISECONDS)
                 .build();
-        this.webTarget = client.target("http://172.22.0.3:8080/WebAppOnDocker-1.0.0");
+        this.webTarget = client.target(DriverSettingsProperties.get(DriverSettingsProperties.Keys.URL));
     }
 
     protected WebTarget getWebTarget() {
@@ -59,6 +60,6 @@ public class DriverClient {
                 .get();
 
         System.out.println(" Response HttpStatus:" + response.getStatus());
-        System.out.println(" Response Entity:" + new Gson().toJson(response.getEntity()));
+        System.out.println(" Response Entity:" + response.getEntity());
     }
 }

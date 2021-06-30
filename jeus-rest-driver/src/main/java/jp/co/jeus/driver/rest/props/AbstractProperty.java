@@ -5,16 +5,12 @@
  */
 package jp.co.jeus.driver.rest.props;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import jp.co.jeus.driver.rest.annotation.PropertyAnnotation;
 
 /**
@@ -23,28 +19,22 @@ import jp.co.jeus.driver.rest.annotation.PropertyAnnotation;
  */
 public abstract class AbstractProperty {
 
-    private static final Map<String, String> PROP_HOLDER = new HashMap<>();
-
-    private static final String INIT_FILE_PATH = "src/main/resources/";
+    private static final Map<Class<? extends AbstractProperty>, ResourceBundle> PROP_HOLDER = new HashMap<>();
 
     protected static void setBundle(Class<? extends AbstractProperty> clazz) {
         for (Annotation anno : clazz.getAnnotations()) {
             if (anno instanceof PropertyAnnotation) {
                 Properties pro = new Properties();
-                try {
-                    System.out.println();
-                    pro.load(Files.newBufferedReader(Paths.get(INIT_FILE_PATH, ((PropertyAnnotation) anno).bundle())));
-                    for (Entry<Object, Object> e : pro.entrySet()) {
-                        PROP_HOLDER.put(e.getKey().toString(), e.getValue().toString());
-                    }
-                } catch (IOException ex) {
-                    Logger.getLogger(AbstractProperty.class.getName()).log(Level.SEVERE, null, ex);
+                PropertyAnnotation propAnno = clazz.getAnnotation(PropertyAnnotation.class);
+                if (propAnno == null) {
+                    return;
                 }
+                PROP_HOLDER.put(clazz, PropertyResourceBundle.getBundle(propAnno.bundle()));
             }
         }
     }
 
-    protected static String get(String key) {
-        return PROP_HOLDER.get(key);
+    protected static String get(Class<? extends AbstractProperty> clazz, String key) {
+        return PROP_HOLDER.get(clazz).getString(key);
     }
 }
