@@ -24,7 +24,6 @@ public class SendRequestLogic {
         System.out.println("Driver Started.");
         TestDto dto = new TestDto();
         dto.setId("abc");
-//        client.post(dto);
         client.get();
     }
 }
