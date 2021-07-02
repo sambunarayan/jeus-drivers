@@ -18,9 +18,7 @@ public class SendRequestLogic {
     private DriverClient client = new DriverClient();
 
     public void execute() {
-
         System.out.println(DriverSettingsProperties.get(DriverSettingsProperties.Keys.URL));
-
         System.out.println("Driver Started.");
         TestDto dto = new TestDto();
         dto.setId("abc");
