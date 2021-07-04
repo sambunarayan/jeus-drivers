@@ -5,7 +5,8 @@
  */
 package jp.co.jeus.driver.rest.props;
 
-import jp.co.jeus.driver.rest.annotation.PropertyAnnotation;
+import jp.co.jeus.common.lib.props.AbstractProperty;
+import jp.co.jeus.common.lib.dto.annotation.PropertyAnnotation;
 
 /**
  *

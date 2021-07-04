@@ -21,7 +21,7 @@ public class SendRequestLogic {
         System.out.println(DriverSettingsProperties.get(DriverSettingsProperties.Keys.URL));
         System.out.println("Driver Started.");
         TestDto dto = new TestDto();
-        dto.setId("abc");
-        client.get();
+        dto.setId("1");
+        client.post(dto);
     }
 }
