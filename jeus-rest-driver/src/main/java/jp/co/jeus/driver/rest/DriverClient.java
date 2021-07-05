@@ -14,7 +14,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import jp.co.jeus.driver.rest.dto.TestDto;
-import jp.co.jeus.driver.rest.dto.TodoListDto;
 import jp.co.jeus.driver.rest.props.DriverSettingsProperties;
 
 /**
@@ -23,7 +22,7 @@ import jp.co.jeus.driver.rest.props.DriverSettingsProperties;
  */
 public class DriverClient {
 
-    private static final String servicePath = "test-service1/connection-test";
+    private static final String getPath = "test-service1/todo/findAll";
 
     private static final String postPath = "test-service1/todo/findByKey";
 
@@ -45,7 +44,7 @@ public class DriverClient {
     }
 
     public void post(TestDto testDto) {
-        System.out.println("post");
+        System.out.println("POST");
         Response response = getWebTarget()
                 .path(postPath)
                 .request(MediaType.APPLICATION_JSON)
@@ -58,11 +57,11 @@ public class DriverClient {
     public void get() {
         System.out.println("GET");
         Response response = getWebTarget()
-                .path(servicePath)
+                .path(getPath)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
 
         System.out.println(" Response HttpStatus:" + response.getStatus());
-        System.out.println(" Response Entity:" + response.getEntity());
+        System.out.println(" Response Entity:" + response.readEntity(String.class));
     }
 }

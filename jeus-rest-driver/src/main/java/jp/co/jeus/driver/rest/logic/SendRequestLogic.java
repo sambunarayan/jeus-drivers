@@ -5,9 +5,11 @@
  */
 package jp.co.jeus.driver.rest.logic;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import jp.co.jeus.driver.rest.DriverClient;
 import jp.co.jeus.driver.rest.dto.TestDto;
-import jp.co.jeus.driver.rest.props.DriverSettingsProperties;
 
 /**
  *
@@ -17,11 +19,15 @@ public class SendRequestLogic {
 
     private DriverClient client = new DriverClient();
 
-    public void execute() {
-        System.out.println(DriverSettingsProperties.get(DriverSettingsProperties.Keys.URL));
-        System.out.println("Driver Started.");
-        TestDto dto = new TestDto();
-        dto.setId("1");
-        client.post(dto);
+    public void requestGet() {
+        client.get();
+    }
+
+    public void requestPost(String path) throws IOException {
+        Files.readAllLines(Paths.get(path)).forEach(o -> {
+            TestDto dto = new TestDto();
+            dto.setId(o);
+            client.post(dto);
+        });
     }
 }
